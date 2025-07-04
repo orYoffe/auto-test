@@ -5,6 +5,7 @@ import ora from 'ora';
 import path from 'path';
 import fs from 'fs';
 import dotenv from 'dotenv';
+import { execSync } from 'child_process';
 
 import { ConfigLoader } from './services/config-loader';
 import { FileHandler } from './services/file-handler';
@@ -25,12 +26,13 @@ program
   .version('0.1.0')
   .option('-c, --config <path>', 'path to configuration file')
   .option('-o, --output <path>', 'path to output JSON file with test generation results')
-  .option('-p, --provider <provider>', 'AI provider to use (openai or anthropic)')
+  .option('-p, --provider <provider>', 'AI provider to use (openai, anthropic, or gemini)')
   .option('-m, --model <model>', 'specific model to use with the AI provider')
   .option('-t, --test-runner <runner>', 'test runner to use (jest, vitest, mocha)')
   .option('-d, --test-directory <directory>', 'directory where test files will be saved')
   .option('-v, --verbose', 'enable verbose logging')
-  .arguments('<patterns...>')
+  .option('--ci', 'run in CI mode (auto-install dependencies and exit with code 1 on failure)')
+  .arguments('[patterns...]')
   .action(async (patterns: string[], options: { 
     config?: string;
     output?: string;
@@ -39,15 +41,51 @@ program
     testRunner?: string;
     testDirectory?: string;
     verbose?: boolean;
+    ci?: boolean;
   }) => {
     try {
+      // If no patterns are provided, use current directory
+      if (patterns.length === 0) {
+        patterns = ['**/*.{ts,js,tsx,jsx}'];
+        console.log('No file patterns provided. Using current directory with pattern: **/*.{ts,js,tsx,jsx}');
+      }
+      
+      // In CI mode, install dependencies if needed
+      if (options.ci) {
+        console.log('Running in CI mode...');
+        const spinner = ora('Installing dependencies...').start();
+        
+        try {
+          // Check if we need to install dependencies
+          if (!fs.existsSync('node_modules') || 
+              fs.readdirSync('node_modules').length === 0) {
+            
+            // Try to detect the package manager
+            let installCommand = 'npm install';
+            if (fs.existsSync('yarn.lock')) {
+              installCommand = 'yarn';
+            } else if (fs.existsSync('pnpm-lock.yaml')) {
+              installCommand = 'pnpm install';
+            }
+            
+            // Run installation in a separate process
+            execSync(installCommand, { stdio: 'inherit' });
+          }
+          spinner.succeed('Dependencies installed');
+        } catch (error) {
+          spinner.fail('Failed to install dependencies');
+          console.error(error);
+          process.exit(1);
+        }
+      }
+      
       // Load configuration
       const config = configLoader.loadConfig(options.config);
       
       // Override with command line options
       if (options.provider) {
         // Type assertion for valid model providers
-        if (options.provider === 'openai' || options.provider === 'anthropic') {
+        if (options.provider === 'openai' || options.provider === 'anthropic' || options.provider === 'gemini') {
           config.modelProvider = options.provider;
         } else {
           console.warn(`Warning: Invalid provider "${options.provider}". Using default.`);
@@ -156,6 +194,12 @@ program
       
       if (failed > 0) {
         console.log(`❌ Failed to generate ${failed} test${failed !== 1 ? 's' : ''}`);
+      }
+      
+      // In CI mode, if any tests failed to generate, exit with code 1
+      if (options.ci && failed > 0) {
+        console.log('CI mode: Exiting with code 1 due to test generation failures');
+        process.exit(1);
       }
       
     } catch (error) {

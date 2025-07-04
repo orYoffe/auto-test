@@ -1,0 +1,103 @@
+{
+  "name": "auto-test-extension",
+  "displayName": "Auto-Test",
+  "description": "Automatically generate tests for your code using AI",
+  "version": "0.1.0",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Testing",
+    "Programming Languages"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "auto-test.generateTests",
+        "title": "Auto-Test: Generate tests for current file"
+      },
+      {
+        "command": "auto-test.generateTestsForDirectory",
+        "title": "Auto-Test: Generate tests for directory"
+      },
+      {
+        "command": "auto-test.setAIProvider",
+        "title": "Auto-Test: Set AI provider"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "auto-test.generateTests",
+          "when": "resourceLangId =~ /(javascript|typescript|javascriptreact|typescriptreact)/",
+          "group": "auto-test"
+        },
+        {
+          "command": "auto-test.generateTestsForDirectory",
+          "when": "explorerResourceIsFolder",
+          "group": "auto-test"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "auto-test.generateTests",
+          "when": "resourceLangId =~ /(javascript|typescript|javascriptreact|typescriptreact)/",
+          "group": "auto-test"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Auto-Test",
+      "properties": {
+        "auto-test.provider": {
+          "type": "string",
+          "default": "gemini",
+          "enum": ["openai", "anthropic", "gemini"],
+          "description": "AI provider to use for test generation"
+        },
+        "auto-test.model": {
+          "type": "string",
+          "default": "gemini-pro",
+          "description": "AI model to use for test generation"
+        },
+        "auto-test.testRunner": {
+          "type": "string",
+          "default": "jest",
+          "enum": ["jest", "vitest", "mocha", "custom"],
+          "description": "Test runner to use for generated tests"
+        },
+        "auto-test.testFileExtension": {
+          "type": "string",
+          "default": "ts",
+          "enum": ["ts", "js"],
+          "description": "File extension for generated test files"
+        },
+        "auto-test.testFileSuffix": {
+          "type": "string",
+          "default": ".spec",
+          "description": "Suffix to append to test file names"
+        }
+      }
+    }
+  },
+  "activationEvents": [
+    "onCommand:auto-test.generateTests",
+    "onCommand:auto-test.generateTestsForDirectory",
+    "onCommand:auto-test.setAIProvider"
+  ],
+  "dependencies": {
+    "auto-test": "file:../"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.80.0",
+    "@vscode/vsce": "^2.22.0"
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run build",
+    "build": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package",
+    "publish": "vsce publish"
+  }
+}

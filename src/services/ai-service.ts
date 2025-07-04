@@ -1,6 +1,7 @@
 import OpenAI from 'openai';
 import Anthropic from '@anthropic-ai/sdk';
 import { AutoTestConfig } from '../types/config';
+import { GeminiService } from './gemini-service';
 
 export interface AIService {
   generateTests(filePath: string, fileContent: string, config: AutoTestConfig): Promise<string>;
@@ -125,7 +126,10 @@ export function createAIService(config: AutoTestConfig): AIService {
       return new OpenAIService();
     case 'anthropic':
       return new AnthropicService();
+    case 'gemini':
+      return new GeminiService();
     default:
-      return new OpenAIService();
+      // Default to Gemini as it's a free option
+      return new GeminiService();
   }
 }

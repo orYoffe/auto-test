@@ -4,7 +4,8 @@
   "description": "CLI to automatically generate tests for your code using AI",
   "main": "dist/index.js",
   "bin": {
-    "auto-test": "./dist/cli.js"
+    "auto-test": "./dist/cli.js",
+    "auto-test-ci": "./dist/ci.js"
   },
   "scripts": {
     "build": "tsc",
@@ -16,9 +17,11 @@
     "test:ignore-ts": "cross-env TS_NODE_TRANSPILE_ONLY=1 jest --config jest.config.test.js",
     "lint": "eslint --fix src/**/*.ts",
     "build:test": "tsc -p tsconfig.test.json",
+    "build:vscode": "cd vscode && npm install && npm run build",
     "prepare": "husky install && npm run build",
     "precommit": "npm run validate",
-    "validate": "node validate.js"
+    "validate": "node validate.js",
+    "ci": "node dist/ci.js"
   },
   "keywords": [
     "test",

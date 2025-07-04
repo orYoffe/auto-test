@@ -6,7 +6,7 @@ dotenv.config();
 export interface AutoTestConfig {
   testRunner: 'jest' | 'vitest' | 'mocha' | 'custom';
   customTestRunnerTemplate?: string;
-  modelProvider: 'openai' | 'anthropic';
+  modelProvider: 'openai' | 'anthropic' | 'gemini';
   model?: string;
   temperature?: number;
   maxTokens?: number;
@@ -22,8 +22,8 @@ export interface AutoTestConfig {
 
 export const defaultConfig: AutoTestConfig = {
   testRunner: 'jest',
-  modelProvider: 'openai',
-  model: process.env.DEFAULT_MODEL || 'gpt-4-turbo',
+  modelProvider: process.env.DEFAULT_PROVIDER as 'openai' | 'anthropic' | 'gemini' || 'gemini',
+  model: process.env.DEFAULT_MODEL || 'gemini-pro',
   temperature: parseFloat(process.env.TEMPERATURE || '0.7'),
   maxTokens: parseInt(process.env.MAX_TOKENS || '4096', 10),
   testNamingConvention: 'camelCase',
