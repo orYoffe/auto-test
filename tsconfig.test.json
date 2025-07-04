@@ -1,0 +1,20 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "types": ["node", "jest"],
+    "skipLibCheck": true,
+    "noImplicitAny": false,
+    "strictNullChecks": false,
+    "esModuleInterop": true,
+    "allowJs": true
+  },
+  "include": [
+    "src/**/*",
+    "jest.config.js"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "name": "vuejs-sample",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "test": "vue-cli-service test:unit",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "core-js": "^3.30.0",
+    "vue": "^3.3.0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~5.0.8",
+    "@vue/cli-plugin-eslint": "~5.0.8",
+    "@vue/cli-plugin-unit-jest": "~5.0.8",
+    "@vue/cli-service": "~5.0.8",
+    "@vue/test-utils": "^2.3.2",
+    "eslint": "^8.38.0",
+    "eslint-plugin-vue": "^9.11.0"
+  }
+}

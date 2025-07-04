@@ -1,0 +1,19 @@
+{
+  "testRunner": "jest",
+  "modelProvider": "openai",
+  "model": "gpt-4-turbo",
+  "temperature": 0.7,
+  "maxTokens": 4096,
+  "testNamingConvention": "camelCase",
+  "testFileExtension": "tsx",
+  "testFileSuffix": ".test",
+  "generateMocks": true,
+  "testDataStrategy": "comprehensive",
+  "includeComments": true,
+  "excludePatterns": [
+    "**/node_modules/**",
+    "**/*.test.tsx",
+    "**/*.spec.tsx",
+    "**/dist/**"
+  ]
+}

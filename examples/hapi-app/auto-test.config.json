@@ -1,0 +1,19 @@
+{
+  "testRunner": "jest",
+  "modelProvider": "openai",
+  "model": "gpt-4-turbo",
+  "temperature": 0.5,
+  "maxTokens": 4096,
+  "testNamingConvention": "camelCase",
+  "testFileExtension": "spec.ts",
+  "generateMocks": true,
+  "testDataStrategy": "comprehensive",
+  "includeComments": true,
+  "frameworkType": "hapi",
+  "excludePatterns": [
+    "**/*.test.ts",
+    "**/*.spec.ts",
+    "**/node_modules/**",
+    "**/dist/**"
+  ]
+}
