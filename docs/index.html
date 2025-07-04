@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auto-Test - AI-Powered Test Generation</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+  <style>
+    :root {
+      --primary: #7c3aed;
+      --primary-hover: #6d28d9;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    .hero {
+      text-align: center;
+      padding: 3rem 0;
+      background-color: #f9fafb;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+    }
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+    .feature {
+      padding: 1.5rem;
+      background-color: #f9fafb;
+      border-radius: 8px;
+      transition: transform 0.3s;
+    }
+    .feature:hover {
+      transform: translateY(-5px);
+    }
+    pre {
+      border-radius: 8px;
+      padding: 1rem;
+      overflow-x: auto;
+    }
+    code {
+      font-family: monospace;
+    }
+    .framework-tabs {
+      margin: 2rem 0;
+    }
+    .tab-content {
+      padding: 1rem;
+      border: 1px solid #e5e7eb;
+      border-radius: 0 0 8px 8px;
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    footer {
+      text-align: center;
+      margin-top: 4rem;
+      padding: 2rem 0;
+      border-top: 1px solid #e5e7eb;
+    }
+  </style>
+</head>
+<body>
+  <nav class="container-fluid">
+    <ul>
+      <li><strong>Auto-Test</strong></li>
+    </ul>
+    <ul>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#installation">Installation</a></li>
+      <li><a href="#usage">Usage</a></li>
+      <li><a href="#frameworks">Frameworks</a></li>
+      <li><a href="https://github.com/your-username/auto-test" target="_blank">GitHub</a></li>
+    </ul>
+  </nav>
+
+  <main class="container">
+    <section class="hero">
+      <h1>Auto-Test</h1>
+      <p>AI-Powered Test Generation for Modern Applications</p>
+      <div>
+        <a href="#installation" role="button">Get Started</a>
+        <a href="#examples" role="button" class="secondary">See Examples</a>
+      </div>
+    </section>
+
+    <section id="features">
+      <h2>Features</h2>
+      <div class="features">
+        <div class="feature">
+          <h3>AI-Powered Test Generation</h3>
+          <p>Leverages OpenAI, Anthropic, or Gemini to generate comprehensive tests for your code.</p>
+        </div>
+        <div class="feature">
+          <h3>Multiple Framework Support</h3>
+          <p>Works with React, Next.js, Vue.js, Svelte, Express, Koa, Hapi, Fastify, Hono, NestJS, and GraphQL.</p>
+        </div>
+        <div class="feature">
+          <h3>VS Code Extension</h3>
+          <p>Seamlessly integrate into your development workflow with our VS Code extension.</p>
+        </div>
+        <div class="feature">
+          <h3>CI Mode</h3>
+          <p>Perfect for continuous integration with automated dependency installation and standardized exit codes.</p>
+        </div>
+        <div class="feature">
+          <h3>Customizable Tests</h3>
+          <p>Configure test style, naming conventions, and coverage strategies to match your preferences.</p>
+        </div>
+        <div class="feature">
+          <h3>Free AI Option</h3>
+          <p>Uses Google's Gemini by default, allowing you to generate tests without paid API keys.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="installation">
+      <h2>Installation</h2>
+      <article>
+        <h3>CLI Tool</h3>
+        <pre><code>npm install -g auto-test</code></pre>
+        <h3>VS Code Extension</h3>
+        <p>Search for "Auto-Test" in the VS Code marketplace or install directly:</p>
+        <pre><code>code --install-extension auto-test</code></pre>
+      </article>
+    </section>
+
+    <section id="usage">
+      <h2>Usage</h2>
+      <article>
+        <h3>CLI Usage</h3>
+        <pre><code># Generate tests for current directory
+auto-test
+
+# Generate tests for a specific file
+auto-test path/to/file.js
+
+# Generate tests with CI mode
+auto-test --ci
+
+# Use a specific AI provider
+auto-test --provider openai</code></pre>
+
+        <h3>VS Code Extension</h3>
+        <p>Right-click on a file or folder in VS Code and select "Generate Tests" from the context menu.</p>
+        <p>Or use the command palette (Ctrl+Shift+P / Cmd+Shift+P) and search for "Auto-Test: Generate Tests".</p>
+      </article>
+    </section>
+
+    <section id="frameworks">
+      <h2>Supported Frameworks</h2>
+      <article class="framework-tabs">
+        <nav>
+          <ul>
+            <li><a href="#react" class="tab-link active" data-tab="react">React</a></li>
+            <li><a href="#express" class="tab-link" data-tab="express">Express</a></li>
+            <li><a href="#vue" class="tab-link" data-tab="vue">Vue.js</a></li>
+            <li><a href="#nestjs" class="tab-link" data-tab="nestjs">NestJS</a></li>
+            <li><a href="#graphql" class="tab-link" data-tab="graphql">GraphQL</a></li>
+          </ul>
+        </nav>
+        
+        <div id="react-tab" class="tab-content active">
+          <h3>React Component Tests</h3>
+          <pre><code>import React from 'react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { UserProfile } from './UserProfile';
+
+describe('UserProfile', () => {
+  test('displays user information correctly', () => {
+    const user = { name: 'John Doe', email: 'john@example.com' };
+    render(&lt;UserProfile user={user} /&gt;);
+    expect(screen.getByText('John Doe')).toBeInTheDocument();
+    expect(screen.getByText('john@example.com')).toBeInTheDocument();
+  });
+
+  test('handles edit button click', () => {
+    const onEditMock = jest.fn();
+    render(&lt;UserProfile user={{ name: 'John' }} onEdit={onEditMock} /&gt;);
+    fireEvent.click(screen.getByRole('button', { name: /edit/i }));
+    expect(onEditMock).toHaveBeenCalled();
+  });
+});</code></pre>
+        </div>
+        
+        <div id="express-tab" class="tab-content">
+          <h3>Express API Tests</h3>
+          <pre><code>import request from 'supertest';
+import app from './app';
+import { createUser, getUserById } from './userService';
+
+jest.mock('./userService');
+
+describe('User API', () => {
+  test('GET /users/:id returns user data', async () => {
+    (getUserById as jest.Mock).mockResolvedValue({
+      id: '123',
+      name: 'Jane Doe'
+    });
+    
+    const response = await request(app).get('/users/123');
+    
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({
+      id: '123',
+      name: 'Jane Doe'
+    });
+  });
+});</code></pre>
+        </div>
+        
+        <div id="vue-tab" class="tab-content">
+          <h3>Vue.js Component Tests</h3>
+          <pre><code>import { mount } from '@vue/test-utils';
+import UserProfile from './UserProfile.vue';
+
+describe('UserProfile', () => {
+  test('displays user information correctly', () => {
+    const user = { name: 'John Doe', email: 'john@example.com' };
+    const wrapper = mount(UserProfile, {
+      props: { user }
+    });
+    
+    expect(wrapper.text()).toContain('John Doe');
+    expect(wrapper.text()).toContain('john@example.com');
+  });
+
+  test('emits edit event when button clicked', async () => {
+    const wrapper = mount(UserProfile, {
+      props: { user: { name: 'John' } }
+    });
+    
+    await wrapper.find('button').trigger('click');
+    expect(wrapper.emitted()).toHaveProperty('edit');
+  });
+});</code></pre>
+        </div>
+        
+        <div id="nestjs-tab" class="tab-content">
+          <h3>NestJS Tests</h3>
+          <pre><code>import { Test, TestingModule } from '@nestjs/testing';
+import { UsersController } from './users.controller';
+import { UsersService } from './users.service';
+
+describe('UsersController', () => {
+  let controller: UsersController;
+  let service: UsersService;
+
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      controllers: [UsersController],
+      providers: [
+        {
+          provide: UsersService,
+          useValue: {
+            findAll: jest.fn().mockResolvedValue([
+              { id: '1', name: 'John' },
+              { id: '2', name: 'Jane' },
+            ]),
+            findOne: jest.fn().mockImplementation((id) =>
+              Promise.resolve({ id, name: 'Test User' }),
+            ),
+          },
+        },
+      ],
+    }).compile();
+
+    controller = module.get<UsersController>(UsersController);
+    service = module.get<UsersService>(UsersService);
+  });
+
+  it('should return all users', async () => {
+    expect(await controller.findAll()).toEqual([
+      { id: '1', name: 'John' },
+      { id: '2', name: 'Jane' },
+    ]);
+    expect(service.findAll).toHaveBeenCalled();
+  });
+});</code></pre>
+        </div>
+        
+        <div id="graphql-tab" class="tab-content">
+          <h3>GraphQL Tests</h3>
+          <pre><code>import { createTestClient } from 'apollo-server-testing';
+import { ApolloServer } from 'apollo-server';
+import { typeDefs } from './schema';
+import { resolvers } from './resolvers';
+import { UserService } from './user-service';
+
+jest.mock('./user-service');
+
+describe('GraphQL API', () => {
+  let query, mutate;
+  
+  beforeEach(() => {
+    const server = new ApolloServer({
+      typeDefs,
+      resolvers,
+    });
+    
+    const testClient = createTestClient(server);
+    query = testClient.query;
+    mutate = testClient.mutate;
+    
+    (UserService.findById as jest.Mock).mockResolvedValue({
+      id: '123',
+      name: 'Test User',
+      email: 'test@example.com'
+    });
+  });
+  
+  test('queries a user by id', async () => {
+    const USER_QUERY = `
+      query GetUser($id: ID!) {
+        user(id: $id) {
+          id
+          name
+          email
+        }
+      }
+    `;
+    
+    const result = await query({ 
+      query: USER_QUERY, 
+      variables: { id: '123' } 
+    });
+    
+    expect(result.errors).toBeUndefined();
+    expect(result.data.user).toEqual({
+      id: '123',
+      name: 'Test User',
+      email: 'test@example.com'
+    });
+  });
+});</code></pre>
+        </div>
+      </article>
+    </section>
+
+    <section id="configuration">
+      <h2>Configuration</h2>
+      <article>
+        <p>Create a <code>.autotestrc</code> file in your project root to customize settings:</p>
+        <pre><code>{
+  "testRunner": "jest",
+  "modelProvider": "gemini",
+  "model": "gemini-pro",
+  "testNamingConvention": "camelCase",
+  "testFileExtension": "ts",
+  "testFileSuffix": ".spec",
+  "generateMocks": true,
+  "testDataStrategy": "comprehensive",
+  "includeComments": true,
+  "excludePatterns": ["**/*.d.ts", "**/node_modules/**"]
+}</code></pre>
+      </article>
+    </section>
+  </main>
+
+  <footer class="container">
+    <p>Auto-Test - AI-Powered Test Generation</p>
+    <p><small>© 2025 - Released under the MIT License</small></p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const tabs = document.querySelectorAll('.tab-link');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', (e) => {
+          e.preventDefault();
+          
+          // Remove active class from all tabs and content
+          document.querySelectorAll('.tab-link').forEach(t => t.classList.remove('active'));
+          document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+          
+          // Add active class to clicked tab and corresponding content
+          tab.classList.add('active');
+          const tabId = tab.getAttribute('data-tab');
+          document.getElementById(`${tabId}-tab`).classList.add('active');
+        });
+      });
+    });
+  </script>
+</body>
+</html>

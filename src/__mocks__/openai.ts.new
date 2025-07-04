@@ -5,14 +5,12 @@ import { jest } from '@jest/globals';
  * based on the file type being tested.
  */
 
-// Mock implementation types are handled with 'any'
-
 const mockOpenAI = {
   chat: {
     completions: {
-      create: jest.fn().mockImplementation((params: any) => {
-        // Safely extract message content with proper typing
-        const messages = params.messages;
+      create: jest.fn().mockImplementation((params) => {
+        // Safely extract message content without destructuring
+        const messages = params?.messages || [];
         const userMessage = messages.find(m => m.role === 'user')?.content || '';
         const fileContent = typeof userMessage === 'string' ? userMessage : '';
         

@@ -1,4 +1,16 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
+#!/bin/sh
 
-npm run precommit
+# Enhanced pre-commit hook using Node.js for better cross-platform support
+echo "Running pre-commit checks..."
+
+# Run our enhanced pre-commit.js script
+node .husky/pre-commit.js
+
+# Check exit code from the script
+if [ $? -eq 0 ]; then
+  echo "✅ Pre-commit checks passed!"
+  exit 0
+else
+  echo "❌ Pre-commit checks failed. Please fix the issues before committing."
+  exit 1
+fi

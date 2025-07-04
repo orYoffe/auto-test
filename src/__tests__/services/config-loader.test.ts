@@ -35,7 +35,10 @@ describe('ConfigLoader', () => {
     };
     
     // Mock path.isAbsolute
-    (path.isAbsolute as jest.Mock).mockImplementation((p: string) => p.startsWith('/') || /^[A-Z]:\\/.test(p));
+    (path.isAbsolute as jest.Mock).mockImplementation((...args: unknown[]) => {
+      const p = args[0] as string;
+      return p.startsWith('/') || /^[A-Z]:\\/.test(p);
+    });
     
     // Mock path.resolve
     (path.resolve as jest.Mock).mockImplementation((dir, file) => `${dir}/${file}`);
@@ -77,7 +80,7 @@ describe('ConfigLoader', () => {
     });
     
     // Mock console.warn to prevent output during test
-    jest.spyOn(console, 'warn').mockImplementation();
+    jest.spyOn(console, 'warn').mockImplementation(jest.fn());
     
     const config = configLoader.loadConfig('non-existent.json');
     

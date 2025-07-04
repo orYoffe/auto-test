@@ -9,11 +9,13 @@ import { createAIService } from '../services/ai-service';
 jest.mock('fs');
 jest.mock('path');
 jest.mock('glob');
-jest.mock('../services/ai-service', () => ({
-  createAIService: jest.fn().mockReturnValue({
-    generateTests: jest.fn().mockResolvedValue('test content')
-  })
-}));
+jest.mock('../services/ai-service', () => {
+  return {
+    createAIService: jest.fn().mockImplementation(() => ({
+      generateTests: jest.fn().mockImplementation(() => Promise.resolve('test content'))
+    }))
+  };
+});
 
 describe('Integration Tests', () => {
   let configLoader: ConfigLoader;
@@ -54,7 +56,8 @@ describe('Integration Tests', () => {
   
   test('End-to-end test flow', async () => {
     // Mock findFiles to return a single file
-    fileHandler.findFiles = jest.fn().mockResolvedValue(['/src/utils/formatter.ts']);
+    const findFilesMock = jest.fn().mockImplementation(() => Promise.resolve(['/src/utils/formatter.ts'])) as unknown as typeof fileHandler.findFiles;
+    fileHandler.findFiles = findFilesMock;
     
     // 1. Load config
     const config = configLoader.loadConfig('/config.json');

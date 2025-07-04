@@ -7,7 +7,7 @@ export class FileHandler {
   /**
    * Find all files matching the patterns
    */
-  async findFiles(patterns: string[], config: AutoTestConfig): Promise<string[]> {
+  findFiles: (patterns: string[], config: AutoTestConfig) => Promise<string[]> = async (patterns, config) => {
     const allFiles: string[] = [];
     
     for (const pattern of patterns) {

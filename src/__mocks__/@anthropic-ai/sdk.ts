@@ -1,17 +1,18 @@
 import { jest } from '@jest/globals';
 
-const mockAnthropicMessages = jest.fn().mockResolvedValue({
-  content: [
-    {
-      text: 'describe("test", () => { it("should work", () => { expect(true).toBe(true); }); });'
-    }
-  ]
-});
-
+// Simple mock for Anthropic SDK
 const mockClient = {
   messages: {
-    create: mockAnthropicMessages
+    create: jest.fn().mockImplementation(() => {
+      return Promise.resolve({
+        content: [
+          {
+            text: 'describe("test", () => { it("should work", () => { expect(true).toBe(true); }); });'
+          }
+        ]
+      });
+    })
   }
 };
 
-export default jest.fn(() => mockClient);
+export default jest.fn().mockImplementation(() => mockClient);

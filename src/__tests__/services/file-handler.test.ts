@@ -79,8 +79,8 @@ describe('FileHandler', () => {
       // Set exclude patterns in config
       mockConfig.excludePatterns = ['**/*.test.ts'];
       
-      // Mock glob
-      (glob as unknown as jest.Mock).mockResolvedValueOnce(['src/file1.ts']);
+      // Mock glob - handle the returned Promise correctly
+      (jest.mocked(glob) as unknown as jest.Mock).mockImplementationOnce(() => Promise.resolve(['src/file1.ts']));
       
       await fileHandler.findFiles(['pattern1'], mockConfig);
       
