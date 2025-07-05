@@ -5,7 +5,19 @@ import { createAIService } from '../../services/ai-service';
 import { defaultConfig } from '../../types/config';
 
 // Mock modules
-jest.mock('../../services/ai-service');
+jest.mock('../../services/ai-service', () => {
+  return {
+    createAIService: jest.fn().mockImplementation(() => ({
+      generateTests: jest.fn().mockImplementation(() => Promise.resolve(`
+        describe('React Component Tests', () => {
+          test('should render correctly', () => {
+            expect(true).toBe(true);
+          });
+        });
+      `))
+    }))
+  };
+});
 
 describe('React Framework E2E Tests', () => {
   const fileHandler = new FileHandler();

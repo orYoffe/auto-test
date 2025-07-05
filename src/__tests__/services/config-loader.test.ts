@@ -7,6 +7,21 @@ import { ConfigLoader } from '../../services/config-loader';
 // Mock fs and path modules
 jest.mock('fs');
 jest.mock('path');
+jest.mock('../../types/config', () => ({
+  defaultConfig: {
+    testRunner: 'jest',
+    modelProvider: 'openai',
+    model: 'gpt-4-turbo',
+    temperature: 0.7,
+    maxTokens: 4096,
+    testNamingConvention: 'camelCase',
+    testFileExtension: 'ts',
+    testFileSuffix: '.spec',
+    generateMocks: true,
+    testDataStrategy: 'comprehensive',
+    includeComments: true
+  }
+}));
 
 describe('ConfigLoader', () => {
   let configLoader: ConfigLoader;

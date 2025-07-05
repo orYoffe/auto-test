@@ -3,9 +3,10 @@ import { GeminiService } from '../../services/gemini-service';
 import { AutoTestConfig } from '../../types/config';
 
 // Mock fetch
-const mockFetch = jest.fn().mockImplementation(() => 
+global.fetch = jest.fn(() => 
   Promise.resolve({
     ok: true,
+    status: 200,
     json: () => Promise.resolve({
       candidates: [{
         content: {
@@ -16,12 +17,11 @@ const mockFetch = jest.fn().mockImplementation(() =>
       }]
     })
   })
-);
+) as jest.Mock;
 
 // Mock modules
 jest.mock('openai');
 jest.mock('@anthropic-ai/sdk');
-jest.mock('node-fetch', () => mockFetch);
 
 describe('AI Service Tests', () => {
   const filePath = 'test-file.ts';
@@ -94,7 +94,7 @@ describe('AI Service Tests', () => {
     it('should call Gemini API and return test content', async () => {
       const result = await geminiService.generateTests(filePath, fileContent, geminiConfig);
       
-      expect(mockFetch).toHaveBeenCalledTimes(1);
+      expect(global.fetch).toHaveBeenCalledTimes(1);
       expect(result).toContain('describe("add"');
       expect(result).toContain('expect(add(1, 2))');
     });

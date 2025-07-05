@@ -5,7 +5,19 @@ import { createAIService } from '../../services/ai-service';
 import { ConfigLoader } from '../../services/config-loader';
 
 // Mock modules
-jest.mock('../../services/ai-service');
+jest.mock('../../services/ai-service', () => {
+  return {
+    createAIService: jest.fn().mockImplementation(() => ({
+      generateTests: jest.fn().mockImplementation(() => Promise.resolve(`
+        describe('Framework Test Suite', () => {
+          test('should perform basic functionality', () => {
+            expect(true).toBe(true);
+          });
+        });
+      `))
+    }))
+  };
+});
 
 describe('Framework Integration Tests', () => {
   const fileHandler = new FileHandler();

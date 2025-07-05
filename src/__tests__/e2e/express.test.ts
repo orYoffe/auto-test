@@ -5,7 +5,20 @@ import { createAIService } from '../../services/ai-service';
 import { defaultConfig } from '../../types/config';
 
 // Mock modules
-jest.mock('../../services/ai-service');
+jest.mock('../../services/ai-service', () => {
+  return {
+    createAIService: jest.fn().mockImplementation(() => ({
+      generateTests: jest.fn().mockImplementation(() => Promise.resolve(`
+        const request = require('supertest');
+        describe('Express Route Tests', () => {
+          test('should handle GET requests', () => {
+            expect(true).toBe(true);
+          });
+        });
+      `))
+    }))
+  };
+});
 
 describe('Express Framework E2E Tests', () => {
   const fileHandler = new FileHandler();

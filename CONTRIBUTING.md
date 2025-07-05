@@ -1,6 +1,6 @@
-# Contributing to Auto-Test
+# Contributing to AI Test Gen
 
-Thank you for your interest in contributing to Auto-Test! This document provides guidelines and instructions for contributing to this project.
+Thank you for your interest in contributing to AI Test Gen! This document provides guidelines and instructions for contributing to this project.
 
 ## Code of Conduct
 
@@ -17,7 +17,7 @@ Before creating bug reports, please check the existing issues to see if the prob
 - Provide specific examples, such as code snippets or test files
 - Describe the behavior you observed and why it's a problem
 - Include error messages and stack traces
-- Specify which version of Auto-Test you're using
+- Specify which version of AI Test Gen you're using
 - Mention your operating system and Node.js version
 
 ### Suggesting Enhancements
@@ -146,4 +146,4 @@ We use GitHub Pages for documentation. To update the docs:
 
 ## License
 
-By contributing to Auto-Test, you agree that your contributions will be licensed under the project's MIT License.
+By contributing to AI Test Gen, you agree that your contributions will be licensed under the project's MIT License.

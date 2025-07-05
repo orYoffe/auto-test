@@ -7,10 +7,10 @@ import { FileHandler } from '../../src/services/file-handler';
 import { AutoTestConfig } from '../../src/types/config';
 
 export function activate(context: vscode.ExtensionContext) {
-  console.log('Auto-Test extension is now active');
+  console.log('AI Test Gen extension is now active');
 
   // Register command to generate tests for current file
-  const generateTestsDisposable = vscode.commands.registerCommand('auto-test.generateTests', async () => {
+  const generateTestsDisposable = vscode.commands.registerCommand('ai-test-gen.generateTests', async () => {
     try {
       const editor = vscode.window.activeTextEditor;
       if (!editor) {
@@ -35,7 +35,7 @@ export function activate(context: vscode.ExtensionContext) {
   });
 
   // Register command to generate tests for a directory
-  const generateTestsForDirectoryDisposable = vscode.commands.registerCommand('auto-test.generateTestsForDirectory', async (resource: vscode.Uri) => {
+  const generateTestsForDirectoryDisposable = vscode.commands.registerCommand('ai-test-gen.generateTestsForDirectory', async (resource: vscode.Uri) => {
     try {
       if (!resource) {
         const folders = vscode.workspace.workspaceFolders;
@@ -89,14 +89,14 @@ export function activate(context: vscode.ExtensionContext) {
   });
 
   // Register command to set AI provider
-  const setAIProviderDisposable = vscode.commands.registerCommand('auto-test.setAIProvider', async () => {
+  const setAIProviderDisposable = vscode.commands.registerCommand('ai-test-gen.setAIProvider', async () => {
     const providers = ['gemini', 'openai', 'anthropic'];
     const selected = await vscode.window.showQuickPick(providers, {
       placeHolder: 'Select AI provider'
     });
     
     if (selected) {
-      const config = vscode.workspace.getConfiguration('auto-test');
+      const config = vscode.workspace.getConfiguration('ai-test-gen');
       await config.update('provider', selected, vscode.ConfigurationTarget.Global);
       vscode.window.showInformationMessage(`AI provider set to ${selected}`);
     }
@@ -128,7 +128,7 @@ async function generateTest(filePath: string): Promise<void> {
 }
 
 function getExtensionConfig(): AutoTestConfig {
-  const config = vscode.workspace.getConfiguration('auto-test');
+  const config = vscode.workspace.getConfiguration('ai-test-gen');
   
   return {
     testRunner: config.get('testRunner') as 'jest' | 'vitest' | 'mocha' | 'custom',

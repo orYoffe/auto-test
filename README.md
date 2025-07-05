@@ -1,10 +1,30 @@
-# Auto-Test
+# AI Test Gen
 
-![Auto-Test](https://img.shields.io/badge/Auto--Test-v0.1.0-7c3aed)
+![AI Test Gen](https://img.shields.io/badge/AI--Test--Gen-v0.1.0-7c3aed)
 ![License](https://img.shields.io/badge/License-MIT-green)
-![Node](https://img.shields.io/badge/Node-v16%2B-brightgreen)
+![Node](https://img.shiel## Validation
 
-**Auto-Test** is a powerful CLI tool and VS Code extension that automatically generates tests for your code using AI. It supports a wide variety of frameworks and runs with free AI providers by default.
+To validate that ai-test-gen is working correctly, you can use the provided validation script:
+
+```bash
+npm run validate
+```
+
+This script:
+
+1. Validates the project structure
+2. Checks the CLI build process
+3. Confirms sample project files exist
+4. Simulates CLI execution by creating mock test files
+5. Runs a mock test execution
+6. Validates the end-to-end workflow-v16%2B-brightgreen)
+
+**AI Test Gen** is a powerful CLI tool and VS Code extens1. Use the Command Palette (Ctrl+Shift+P) and search for:
+   - "AI Test Gen: Generate tests for current file"
+   - "AI Test Gen: Generate tests for directory"
+   - "AI Test Gen: Set AI provider"
+
+3. Right-click on files or folders in Explorer to access AI Test Gen commandsat automatically generates tests for your code using AI. It supports a wide variety of frameworks and runs with free AI providers by default.
 
 📚 [Documentation](https://github.com/pages/yourusername/auto-test)
 
@@ -32,99 +52,99 @@
 
 ```bash
 # Install globally
-npm install -g auto-test
+npm install -g ai-test-gen
 
 # Or install in a project
-npm install --save-dev auto-test
+npm install --save-dev ai-test-gen
 ```
 
 ## Usage
 
 ```bash
 # Get help
-auto-test --help
+ai-test-gen --help
 
 # Basic usage - run in current directory with default settings
-auto-test
+ai-test-gen
 
 # Generate tests for files matching pattern
-auto-test path/to/your/files/*
-auto-test path/to/your/files/*.ts
+ai-test-gen path/to/your/files/*
+ai-test-gen path/to/your/files/*.ts
 
 # Use custom configuration
-auto-test --config path/to/your/config.json path/to/your/files/*.ts
+ai-test-gen --config path/to/your/config.json path/to/your/files/*.ts
 
 # Specify output JSON report
-auto-test --output test-results.json path/to/your/files/*.ts
+ai-test-gen --output test-results.json path/to/your/files/*.ts
 
 # Select AI provider
-auto-test --provider gemini path/to/your/files/*.ts  # Default, free provider
-auto-test --provider openai path/to/your/files/*.ts
-auto-test --provider anthropic path/to/your/files/*.ts
+ai-test-gen --provider gemini path/to/your/files/*.ts  # Default, free provider
+ai-test-gen --provider openai path/to/your/files/*.ts
+ai-test-gen --provider anthropic path/to/your/files/*.ts
 
 # Specify model
-auto-test --provider gemini --model gemini-pro path/to/your/files/*.ts
-auto-test --provider openai --model gpt-4-turbo path/to/your/files/*.ts
-auto-test --provider anthropic --model claude-3-opus-20240229 path/to/your/files/*.ts
+ai-test-gen --provider gemini --model gemini-pro path/to/your/files/*.ts
+ai-test-gen --provider openai --model gpt-4-turbo path/to/your/files/*.ts
+ai-test-gen --provider anthropic --model claude-3-opus-20240229 path/to/your/files/*.ts
 
 # Specify test runner
-auto-test --test-runner jest path/to/your/files/*.ts
-auto-test --test-runner vitest path/to/your/files/*.ts
+ai-test-gen --test-runner jest path/to/your/files/*.ts
+ai-test-gen --test-runner vitest path/to/your/files/*.ts
 
 # Set output test directory
-auto-test --test-directory ./tests path/to/your/files/*.ts
+ai-test-gen --test-directory ./tests path/to/your/files/*.ts
 
 # Verbose mode
-auto-test --verbose path/to/your/files/*.ts
+ai-test-gen --verbose path/to/your/files/*.ts
 
 # CI mode (create tests, run tests, auto-install dependencies, exit with code 1 on failure)
-auto-test --ci path/to/your/files/*.ts
+ai-test-gen --ci path/to/your/files/*.ts
 
 ## Examples
 
 ```bash
 # Generate tests for all files in the current directory (no parameters needed)
-auto-test
+ai-test-gen
 
 # Generate tests for all TypeScript files in the current directory
-auto-test *.ts
+ai-test-gen *.ts
 
 # Generate tests for all TypeScript files in the src directory
-auto-test src/*.ts
+ai-test-gen src/*.ts
 
 # Generate tests for all TypeScript files in the src directory and subdirectories
-auto-test src/**/*.ts
+ai-test-gen src/**/*.ts
 
 # Use Gemini (free) with custom config and save results report
-auto-test --provider gemini --config ./config.json --output results.json src/**/*.ts
+ai-test-gen --provider gemini --config ./config.json --output results.json src/**/*.ts
 
 # Use OpenAI with custom config and save results report
-auto-test --provider openai --config ./config.json --output results.json src/**/*.ts
+ai-test-gen --provider openai --config ./config.json --output results.json src/**/*.ts
 
 # Use Anthropic Claude for a specific file with verbose logging
-auto-test --provider anthropic --model claude-3-opus-20240229 --verbose src/utils/formatter.ts
+ai-test-gen --provider anthropic --model claude-3-opus-20240229 --verbose src/utils/formatter.ts
 
 # Generate tests for React components with Jest and place them in a tests folder
-auto-test --test-runner jest --test-directory ./tests src/components/**/*.tsx
+ai-test-gen --test-runner jest --test-directory ./tests src/components/**/*.tsx
 
 # Run in CI mode to create tests, run them, and check for failures
-auto-test --ci src/**/*.ts
+ai-test-gen --ci src/**/*.ts
 
 # Framework-specific examples:
 # Generate tests for a React component
-auto-test --provider gemini src/components/Button.tsx
+ai-test-gen --provider gemini src/components/Button.tsx
 
 # Generate tests for Express.js routes
-auto-test --provider gemini src/routes/*.ts
+ai-test-gen --provider gemini src/routes/*.ts
 
 # Generate tests for Next.js API handlers
-auto-test --provider gemini src/pages/api/*.ts
+ai-test-gen --provider gemini src/pages/api/*.ts
 
 # Generate tests for Vue.js components
-auto-test --provider gemini src/components/*.vue
+ai-test-gen --provider gemini src/components/*.vue
 
 # Generate tests for Svelte components
-auto-test --provider gemini src/*.svelte
+ai-test-gen --provider gemini src/*.svelte
 ```
 
 ## Configuration
@@ -329,7 +349,7 @@ Auto-test can be integrated into your CI pipeline using the `--ci` flag:
 
 ```yaml
 # Example GitHub Actions workflow
-name: Auto-Test
+name: AI Test Gen
 
 on: [push, pull_request]
 
@@ -342,7 +362,7 @@ jobs:
         with:
           node-version: 16
       - name: Generate and run tests
-        run: npx auto-test --ci
+        run: npx ai-test-gen --ci
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
 ```

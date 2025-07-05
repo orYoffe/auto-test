@@ -1,0 +1,7 @@
+{
+  "testRunner": "jest",
+  "modelProvider": "openai",
+  "testFileExtension": "ts",
+  "testFileSuffix": ".mock.spec",
+  "includeComments": true
+}

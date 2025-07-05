@@ -16,6 +16,7 @@ const RESET = '\x1b[0m';
 // Constants
 const SAMPLE_PROJECT_PATH = path.join(__dirname, 'examples', 'sample-project');
 const CLI_PATH = path.join(__dirname, 'dist', 'cli.js');
+const PACKAGE_NAME = 'ai-test-gen';
 
 function log(message, color = RESET) {
   console.log(`${color}${message}${RESET}`);
@@ -248,7 +249,7 @@ function runMockTests() {
   // Create a mock test that will pass
   const mockTestFile = path.join(__dirname, 'mock-test.js');
   const mockTestContent = `
-describe('Auto-test validation', () => {
+describe('${PACKAGE_NAME} validation', () => {
   test('should validate successfully', () => {
     expect(1 + 1).toBe(2);
   });
@@ -259,7 +260,7 @@ describe('Auto-test validation', () => {
   
   try {
     // This will fail if Jest is not installed, but that's OK for validation
-    const result = execSync('node --eval "console.log(\'Mock test successful\')"', { 
+    execSync('node --eval "console.log(\'Mock test successful\')"', { 
       stdio: 'pipe',
       encoding: 'utf-8'
     });
@@ -282,7 +283,7 @@ function validateEndToEndWorkflow() {
   log('Validating end-to-end workflow...', YELLOW);
   
   // Create a mock config file
-  const configFile = path.join(SAMPLE_PROJECT_PATH, 'auto-test-mock-config.json');
+  const configFile = path.join(SAMPLE_PROJECT_PATH, `${PACKAGE_NAME}-mock-config.json`);
   const configContent = {
     testRunner: 'jest',
     modelProvider: 'openai',
@@ -294,7 +295,7 @@ function validateEndToEndWorkflow() {
   fs.writeFileSync(configFile, JSON.stringify(configContent, null, 2));
   
   // Create a mock output file path
-  const outputFile = path.join(SAMPLE_PROJECT_PATH, 'auto-test-results.json');
+  const outputFile = path.join(SAMPLE_PROJECT_PATH, `${PACKAGE_NAME}-results.json`);
   
   // Create a mock test result file
   const testResultsContent = [
@@ -317,7 +318,7 @@ function validateEndToEndWorkflow() {
 }
 
 function runValidation() {
-  log('=== AUTO-TEST VALIDATION ===', GREEN);
+  log(`=== ${PACKAGE_NAME.toUpperCase()} VALIDATION ===`, GREEN);
   
   const results = {
     structure: validateDirectoryStructure(),
@@ -342,7 +343,7 @@ function runValidation() {
   log('\n=== OVERALL RESULT ===', YELLOW);
   if (allSuccessful) {
     log('✅ VALIDATION SUCCESSFUL', GREEN);
-    log('auto-test functionality has been validated successfully!\n', GREEN);
+    log(`${PACKAGE_NAME} functionality has been validated successfully!\n`, GREEN);
   } else {
     log('❌ VALIDATION FAILED', RED);
     log('Some validation steps failed. Please check the above output for details.\n', RED);

@@ -1,6 +1,6 @@
-# AI Instructions for Auto-Test
+# AI Instructions for AI Test Gen
 
-Auto-Test is a powerful CLI tool and VS Code extension that automatically generates tests for your code using AI. This file contains instructions for AI providers on how to generate tests.
+AI Test Gen is a powerful CLI tool and VS Code extension that automatically generates tests for your code using AI. This file contains instructions for AI providers on how to generate tests.
 
 ## Test Generation Instructions
 

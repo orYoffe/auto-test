@@ -1,6 +1,6 @@
 {
-  "name": "auto-test-extension",
-  "displayName": "Auto-Test",
+  "name": "ai-test-gen-extension",
+  "displayName": "AI Test Gen",
   "description": "Automatically generate tests for your code using AI",
   "version": "0.1.0",
   "engines": {
@@ -14,36 +14,36 @@
   "contributes": {
     "commands": [
       {
-        "command": "auto-test.generateTests",
-        "title": "Auto-Test: Generate tests for current file"
+        "command": "ai-test-gen.generateTests",
+        "title": "AI Test Gen: Generate tests for current file"
       },
       {
-        "command": "auto-test.generateTestsForDirectory",
-        "title": "Auto-Test: Generate tests for directory"
+        "command": "ai-test-gen.generateTestsForDirectory",
+        "title": "AI Test Gen: Generate tests for directory"
       },
       {
-        "command": "auto-test.setAIProvider",
-        "title": "Auto-Test: Set AI provider"
+        "command": "ai-test-gen.setAIProvider",
+        "title": "AI Test Gen: Set AI provider"
       }
     ],
     "menus": {
       "explorer/context": [
         {
-          "command": "auto-test.generateTests",
+          "command": "ai-test-gen.generateTests",
           "when": "resourceLangId =~ /(javascript|typescript|javascriptreact|typescriptreact)/",
-          "group": "auto-test"
+          "group": "ai-test-gen"
         },
         {
-          "command": "auto-test.generateTestsForDirectory",
+          "command": "ai-test-gen.generateTestsForDirectory",
           "when": "explorerResourceIsFolder",
-          "group": "auto-test"
+          "group": "ai-test-gen"
         }
       ],
       "editor/context": [
         {
-          "command": "auto-test.generateTests",
+          "command": "ai-test-gen.generateTests",
           "when": "resourceLangId =~ /(javascript|typescript|javascriptreact|typescriptreact)/",
-          "group": "auto-test"
+          "group": "ai-test-gen"
         }
       ]
     },
