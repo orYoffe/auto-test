@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { AutoTestConfig, defaultConfig } from '../types/config';
+import { AutoTestConfig, defaultConfig } from '../types/config.js';
 
 export class ConfigLoader {
   /**

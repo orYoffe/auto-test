@@ -1,7 +1,7 @@
 import OpenAI from 'openai';
 import Anthropic from '@anthropic-ai/sdk';
-import { AutoTestConfig } from '../types/config';
-import { GeminiService } from './gemini-service';
+import { AutoTestConfig } from '../types/config.js';
+import { GeminiService } from './gemini-service.js';
 
 export interface AIService {
   generateTests(filePath: string, fileContent: string, config: AutoTestConfig): Promise<string>;

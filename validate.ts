@@ -1,11 +1,14 @@
 /**
  * Validation script for test-gen
  * This script validates the functionality of test-gen without requiring actual API keys
+ * 
+ * This TypeScript version replaces the previous validate.js, validate.bat and validate.sh
+ * and works cross-platform using ts-node.
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+import * as fs from 'fs';
+import * as path from 'path';
+import { execSync, ExecSyncOptions, StdioOptions } from 'child_process';
 
 // Colors for console output
 const GREEN = '\x1b[32m';
@@ -18,11 +21,11 @@ const SAMPLE_PROJECT_PATH = path.join(__dirname, 'examples', 'sample-project');
 const CLI_PATH = path.join(__dirname, 'dist', 'cli.js');
 const PACKAGE_NAME = 'test-gen';
 
-function log(message, color = RESET) {
+function log(message: string, color = RESET): void {
   console.log(`${color}${message}${RESET}`);
 }
 
-function validateDirectoryStructure() {
+function validateDirectoryStructure(): boolean {
   log('Validating project directory structure...', YELLOW);
   
   const requiredFiles = [
@@ -51,7 +54,7 @@ function validateDirectoryStructure() {
   return allFilesExist;
 }
 
-function validateCLIBuild() {
+function validateCLIBuild(): boolean {
   log('Building the CLI...', YELLOW);
   try {
     // Attempt to build, but don't fail validation if TypeScript errors are present
@@ -68,12 +71,13 @@ function validateCLIBuild() {
     log('✅ Proceeding with validation (TypeScript errors in test files are expected)', GREEN);
     return true;
   } catch (error) {
-    log(`❌ Failed to build CLI: ${error.message}`, RED);
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    log(`❌ Failed to build CLI: ${errorMessage}`, RED);
     return false;
   }
 }
 
-function validateSampleProject() {
+function validateSampleProject(): boolean {
   log('Validating sample project files...', YELLOW);
   
   const requiredFiles = [
@@ -99,7 +103,7 @@ function validateSampleProject() {
   return allFilesExist;
 }
 
-function mockCLIRun() {
+function mockCLIRun(): boolean {
   log('Simulating CLI execution (mock test)...', YELLOW);
   
   // Create a mock test output for calculator.ts
@@ -243,7 +247,7 @@ describe('String Utility Functions', () => {
   return true;
 }
 
-function runMockTests() {
+function runMockTests(): boolean {
   log('Simulating test execution...', YELLOW);
   
   // Create a mock test that will pass
@@ -270,7 +274,8 @@ describe('${PACKAGE_NAME} validation', () => {
     fs.unlinkSync(mockTestFile);
     return true;
   } catch (error) {
-    log(`❌ Mock test execution failed: ${error.message}`, RED);
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    log(`❌ Mock test execution failed: ${errorMessage}`, RED);
     // Clean up
     if (fs.existsSync(mockTestFile)) {
       fs.unlinkSync(mockTestFile);
@@ -279,7 +284,7 @@ describe('${PACKAGE_NAME} validation', () => {
   }
 }
 
-function validateEndToEndWorkflow() {
+function validateEndToEndWorkflow(): boolean {
   log('Validating end-to-end workflow...', YELLOW);
   
   // Create a mock config file
@@ -317,6 +322,96 @@ function validateEndToEndWorkflow() {
   return true;
 }
 
+/**
+ * This function implements the full validation process that was previously
+ * handled by platform-specific scripts (validate.bat and validate.sh)
+ */
+function validateFullProcess(): boolean {
+  log('Running full validation process...', YELLOW);
+
+  // Build the CLI first
+  log('Building test-gen CLI...', YELLOW);
+  try {
+    execSync('npm run build', { stdio: 'inherit' as StdioOptions });
+    log('✅ CLI built successfully', GREEN);
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    log(`❌ Failed to build CLI: ${errorMessage}`, RED);
+    return false;
+  }
+
+  // Navigate to sample project directory (we don't actually change directory
+  // but we set it as the working directory for execSync)
+  log('Validating with sample project...', YELLOW);
+
+  // Test with default .env if it exists
+  if (fs.existsSync(path.join(__dirname, '.env'))) {
+    log('Using existing .env file...', YELLOW);
+    fs.copyFileSync(
+      path.join(__dirname, '.env'),
+      path.join(SAMPLE_PROJECT_PATH, '.env')
+    );
+  } else {
+    log('⚠️ No .env file found, creating mock .env file for testing', YELLOW);
+    // Create a basic .env file with mock API key for Gemini (our default provider)
+    fs.writeFileSync(
+      path.join(SAMPLE_PROJECT_PATH, '.env'),
+      'GEMINI_API_KEY=mock-api-key\n'
+    );
+  }
+
+  // Run test-gen on sample files
+  const cliOptions: ExecSyncOptions = { 
+    cwd: SAMPLE_PROJECT_PATH, 
+    stdio: 'inherit' as StdioOptions 
+  };
+  
+  try {
+    // Run the CLI with --verbose flag to see output
+    // Using --dry-run to prevent actual API calls
+    log('Running test-gen on calculator.ts...', YELLOW);
+    // Using --verbose flag only as --dry-run isn't implemented
+    execSync(`node ${CLI_PATH} --verbose src/calculator.ts`, cliOptions);
+    
+    // Check if test files were created by our mock
+    if (fs.existsSync(path.join(SAMPLE_PROJECT_PATH, 'src', 'calculator.spec.ts'))) {
+      log('✅ Test file was created for calculator.ts', GREEN);
+    } else {
+      log('❌ Failed to generate test file for calculator.ts', RED);
+      return false;
+    }
+
+    log('Running test-gen on string-utils.ts...', YELLOW);
+    execSync(`node ${CLI_PATH} --verbose src/string-utils.ts`, cliOptions);
+    
+    // Check if test files were created by our mock
+    if (fs.existsSync(path.join(SAMPLE_PROJECT_PATH, 'src', 'string-utils.spec.ts'))) {
+      log('✅ Test file was created for string-utils.ts', GREEN);
+    } else {
+      log('❌ Failed to generate test file for string-utils.ts', RED);
+      return false;
+    }
+
+    // Generate tests with a different test runner
+    log('Testing with different test runner (vitest)...', YELLOW);
+    execSync(`node ${CLI_PATH} --test-runner vitest --test-directory ./vitest-tests src/calculator.ts`, cliOptions);
+    
+    if (fs.existsSync(path.join(SAMPLE_PROJECT_PATH, 'vitest-tests', 'calculator.spec.ts'))) {
+      log('✅ Test file was created with vitest configuration', GREEN);
+    } else {
+      log('❌ Failed to generate test file with vitest configuration', RED);
+      return false;
+    }
+
+    log('✅ Full validation process completed successfully', GREEN);
+    return true;
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    log(`❌ Error during full validation: ${errorMessage}`, RED);
+    return false;
+  }
+}
+
 function runValidation() {
   log(`=== ${PACKAGE_NAME.toUpperCase()} VALIDATION ===`, GREEN);
   
@@ -326,7 +421,8 @@ function runValidation() {
     sample: validateSampleProject(),
     cli: mockCLIRun(),
     tests: runMockTests(),
-    workflow: validateEndToEndWorkflow()
+    workflow: validateEndToEndWorkflow(),
+    fullProcess: validateFullProcess()
   };
   
   // Calculate success
@@ -339,17 +435,18 @@ function runValidation() {
   log(`CLI Execution: ${results.cli ? '✅ PASS' : '❌ FAIL'}`, results.cli ? GREEN : RED);
   log(`Test Execution: ${results.tests ? '✅ PASS' : '❌ FAIL'}`, results.tests ? GREEN : RED);
   log(`End-to-End Workflow: ${results.workflow ? '✅ PASS' : '❌ FAIL'}`, results.workflow ? GREEN : RED);
+  log(`Full Process: ${results.fullProcess ? '✅ PASS' : '❌ FAIL'}`, results.fullProcess ? GREEN : RED);
   
   log('\n=== OVERALL RESULT ===', YELLOW);
   if (allSuccessful) {
     log('✅ VALIDATION SUCCESSFUL', GREEN);
     log(`${PACKAGE_NAME} functionality has been validated successfully!\n`, GREEN);
+    process.exit(0);
   } else {
     log('❌ VALIDATION FAILED', RED);
     log('Some validation steps failed. Please check the above output for details.\n', RED);
+    process.exit(1);
   }
-  
-  return allSuccessful;
 }
 
 // Run the validation

@@ -7,9 +7,10 @@ import fs from 'fs';
 import dotenv from 'dotenv';
 import { execSync } from 'child_process';
 
-import { ConfigLoader } from './services/config-loader';
-import { FileHandler } from './services/file-handler';
-import { createAIService } from './services/ai-service';
+import { ConfigLoader } from './services/config-loader.js';
+import { FileHandler } from './services/file-handler.js';
+import { createAIService } from './services/ai-service.js';
+import { GeminiService } from './services/gemini-service.js';
 
 // Load environment variables
 dotenv.config();
@@ -21,7 +22,7 @@ const fileHandler = new FileHandler();
 
 // Set up CLI options
 program
-  .name('auto-test')
+  .name('test-gen')
   .description('Automatically generate tests for your code using AI')
   .version('0.1.0')
   .option('-c, --config <path>', 'path to configuration file')
@@ -49,7 +50,14 @@ program
         patterns = ['**/*.{ts,js,tsx,jsx}'];
         console.log('No file patterns provided. Using current directory with pattern: **/*.{ts,js,tsx,jsx}');
       }
-      
+      // Determine target directory for .env (first pattern if it's a directory, else cwd)
+      let targetDir = process.cwd();
+      if (patterns.length > 0) {
+        const firstPattern = patterns[0];
+        if (fs.existsSync(firstPattern) && fs.lstatSync(firstPattern).isDirectory()) {
+          targetDir = path.resolve(firstPattern);
+        }
+      }
       // In CI mode, install dependencies if needed
       if (options.ci) {
         console.log('Running in CI mode...');
@@ -106,6 +114,10 @@ program
       if (options.testDirectory) config.testDirectory = options.testDirectory;
       
       const verbose = options.verbose;
+      // --- Gemini API key validation before creating AI service ---
+      if ((config.modelProvider === 'gemini' || !config.modelProvider)) {
+        await GeminiService.validateApiKey(targetDir);
+      }
       const aiService = createAIService(config);
       
       // Find files matching the patterns

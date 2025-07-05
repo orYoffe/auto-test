@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { glob } from 'glob';
-import { AutoTestConfig } from '../types/config';
+import { AutoTestConfig } from '../types/config.js';
 
 export class FileHandler {
   /**

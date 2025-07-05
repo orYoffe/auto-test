@@ -1,0 +1,12 @@
+[
+  {
+    "source": "C:\\Users\\Admin\\dev\\auto-test\\examples\\sample-project\\src\\calculator.ts",
+    "testPath": "C:\\Users\\Admin\\dev\\auto-test\\examples\\sample-project\\src\\calculator.mock.spec.ts",
+    "success": true
+  },
+  {
+    "source": "C:\\Users\\Admin\\dev\\auto-test\\examples\\sample-project\\src\\string-utils.ts",
+    "testPath": "C:\\Users\\Admin\\dev\\auto-test\\examples\\sample-project\\src\\string-utils.mock.spec.ts",
+    "success": true
+  }
+]

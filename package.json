@@ -1,11 +1,12 @@
 {
-  "name": "ai-test-gen",
+  "name": "@or_yoffe/test-gen",
   "version": "0.1.0",
   "description": "CLI to automatically generate tests for your code using AI",
+  "type": "module",
   "main": "dist/index.js",
   "bin": {
-    "ai-test-gen": "./dist/cli.js",
-    "ai-test-gen-ci": "./dist/ci.js"
+    "@or_yoffe/test-gen": "./dist/cli.js",
+    "@or_yoffe/test-gen-ci": "./dist/ci.js"
   },
   "scripts": {
     "build": "tsc",
@@ -19,7 +20,8 @@
     "build:test": "tsc -p tsconfig.test.json",
     "build:vscode": "cd vscode && npm install && npm run build",
     "prepare": "npm run build",
-    "validate": "node validate.js",
+    "validate": "ts-node validate.ts",
+    "validate:js": "node validate.js",
     "ci": "node dist/ci.js"
   },
   "keywords": [
@@ -39,6 +41,7 @@
     "commander": "^11.1.0",
     "dotenv": "^16.3.1",
     "glob": "^10.3.10",
+    "open": "^10.1.2",
     "openai": "^4.20.1",
     "ora": "^5.4.1"
   },
@@ -55,5 +58,27 @@
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.3.2"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "files": [
+    "dist",
+    "src",
+    "vscode"
+  ],
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/tests/**/*.test.ts"
+    ],
+    "transformIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }

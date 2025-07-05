@@ -22,8 +22,8 @@ export interface AutoTestConfig {
 
 export const defaultConfig: AutoTestConfig = {
   testRunner: 'jest',
-  modelProvider: 'openai', // Hardcode to 'openai' for tests to pass
-  model: 'gpt-4-turbo',
+  modelProvider: 'gemini', // Default to Gemini as it's free
+  model: 'gemini-pro',
   temperature: parseFloat(process.env.TEMPERATURE || '0.7'),
   maxTokens: parseInt(process.env.MAX_TOKENS || '4096', 10),
   testNamingConvention: 'camelCase',

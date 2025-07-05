@@ -1,6 +1,6 @@
 {
-  "name": "ai-test-gen-extension",
-  "displayName": "AI Test Gen",
+  "name": "test-gen-extension",
+  "displayName": "test-gen",
   "description": "Automatically generate tests for your code using AI",
   "version": "0.1.0",
   "engines": {
@@ -14,66 +14,66 @@
   "contributes": {
     "commands": [
       {
-        "command": "ai-test-gen.generateTests",
-        "title": "AI Test Gen: Generate tests for current file"
+        "command": "test-gen.generateTests",
+        "title": "test-gen: Generate tests for current file"
       },
       {
-        "command": "ai-test-gen.generateTestsForDirectory",
-        "title": "AI Test Gen: Generate tests for directory"
+        "command": "test-gen.generateTestsForDirectory",
+        "title": "test-gen: Generate tests for directory"
       },
       {
-        "command": "ai-test-gen.setAIProvider",
-        "title": "AI Test Gen: Set AI provider"
+        "command": "test-gen.setAIProvider",
+        "title": "test-gen: Set AI provider"
       }
     ],
     "menus": {
       "explorer/context": [
         {
-          "command": "ai-test-gen.generateTests",
+          "command": "test-gen.generateTests",
           "when": "resourceLangId =~ /(javascript|typescript|javascriptreact|typescriptreact)/",
-          "group": "ai-test-gen"
+          "group": "test-gen"
         },
         {
-          "command": "ai-test-gen.generateTestsForDirectory",
+          "command": "test-gen.generateTestsForDirectory",
           "when": "explorerResourceIsFolder",
-          "group": "ai-test-gen"
+          "group": "test-gen"
         }
       ],
       "editor/context": [
         {
-          "command": "ai-test-gen.generateTests",
+          "command": "test-gen.generateTests",
           "when": "resourceLangId =~ /(javascript|typescript|javascriptreact|typescriptreact)/",
-          "group": "ai-test-gen"
+          "group": "test-gen"
         }
       ]
     },
     "configuration": {
-      "title": "Auto-Test",
+      "title": "test-gen",
       "properties": {
-        "auto-test.provider": {
+        "test-gen.provider": {
           "type": "string",
           "default": "gemini",
           "enum": ["openai", "anthropic", "gemini"],
           "description": "AI provider to use for test generation"
         },
-        "auto-test.model": {
+        "test-gen.model": {
           "type": "string",
           "default": "gemini-pro",
           "description": "AI model to use for test generation"
         },
-        "auto-test.testRunner": {
+        "test-gen.testRunner": {
           "type": "string",
           "default": "jest",
           "enum": ["jest", "vitest", "mocha", "custom"],
           "description": "Test runner to use for generated tests"
         },
-        "auto-test.testFileExtension": {
+        "test-gen.testFileExtension": {
           "type": "string",
           "default": "ts",
           "enum": ["ts", "js"],
           "description": "File extension for generated test files"
         },
-        "auto-test.testFileSuffix": {
+        "test-gen.testFileSuffix": {
           "type": "string",
           "default": ".spec",
           "description": "Suffix to append to test file names"
@@ -82,12 +82,12 @@
     }
   },
   "activationEvents": [
-    "onCommand:auto-test.generateTests",
-    "onCommand:auto-test.generateTestsForDirectory",
-    "onCommand:auto-test.setAIProvider"
+    "onCommand:test-gen.generateTests",
+    "onCommand:test-gen.generateTestsForDirectory",
+    "onCommand:test-gen.setAIProvider"
   ],
   "dependencies": {
-    "auto-test": "file:../"
+    "test-gen": "file:../"
   },
   "devDependencies": {
     "@types/vscode": "^1.80.0",

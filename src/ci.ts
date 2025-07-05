@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * GitHub Actions workflow for auto-test
+ * GitHub Actions workflow for test-gen
  * This script specifically creates and runs tests in CI environments
  * It will:
  * 1. Install all dependencies
@@ -59,7 +59,7 @@ try {
   // Build the test generation command
   const genTestsCommand = `node "${path.join(__dirname, 'cli.js')}" ${commandArgs.join(' ')}`;
   
-  console.log(`\n=== AUTO-TEST CI MODE ===`);
+  console.log(`\n=== TEST-GEN CI MODE ===`);
   
   // Step 1: Install dependencies
   console.log(`\n1️⃣ Installing dependencies...`);
@@ -122,9 +122,9 @@ try {
     console.log(`[DRY RUN] Would run tests with ${testRunner}`);
   }
   
-  console.log(`\n✅ Auto-test CI process completed successfully`);
+  console.log(`\n✅ test-gen CI process completed successfully`);
   process.exit(0);
 } catch (error) {
-  console.error(`\n❌ Auto-test CI process failed: ${error instanceof Error ? error.message : String(error)}`);
+  console.error(`\n❌ test-gen CI process failed: ${error instanceof Error ? error.message : String(error)}`);
   process.exit(1);
 }
